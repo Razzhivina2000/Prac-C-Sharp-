@@ -15,11 +15,25 @@ namespace Lab1
         }
         float MaxLength
         {
-            get { 
-                var c = from i in V1Datalist select i.Max(v => v.vec.Length());
-                return c;
+            get
+            { 
+                return V1Datalist.Max(v => v.Max(a => a.vec.Length())).vec.Length();
             }
         }
+        float MaxLengthDataItem
+        {
+            get
+            {
+                return V1Datalist.Max(v => v.Max(a => a.vec.Length()));
+            }
+        }
+        /*IEnumerable<float> MoreOftenT
+        {
+            get
+            {
+                return V1Datalist.Max(v => v.Max(a => a.vec.Length()));
+            }
+        }*/
 
         IEnumerator<V1Data> IEnumerable<V1Data>.GetEnumerator()
         {
