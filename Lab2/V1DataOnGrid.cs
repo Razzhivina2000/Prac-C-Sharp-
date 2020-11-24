@@ -15,7 +15,7 @@ namespace Lab1
         {
             this.grid = grid;
         }
-        public V1DataOnGrid(string filename)
+        public V1DataOnGrid(string filename) : base("", new DateTime())
         {
             string str;
             try
@@ -25,11 +25,11 @@ namespace Lab1
                     str = sr.ReadLine();
                 }
                 string[] values = str.Split(' ');
-                this.info = values[0];
+                info = values[0];
                 string dateString = values[1] + " " + values[2] + " " + values[3]; // "5/1/2008 8:30:52 AM";
-                this.date = DateTime.Parse(dateString,
+                date = DateTime.Parse(dateString,
                                           System.Globalization.CultureInfo.InvariantCulture);
-                this.grid = new Grid(float.Parse(values[4]), float.Parse(values[5]), Int32.Parse(values[6]));
+                grid = new Grid(float.Parse(values[4]), float.Parse(values[5]), Int32.Parse(values[6]));
             }
             catch (Exception e)
             {
