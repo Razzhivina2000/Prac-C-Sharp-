@@ -26,15 +26,8 @@ namespace Lab1
         }
         public bool Remove(string id, DateTime dateTime)
         {
-            bool ans = false;
-            foreach (V1Data value in V1Datalist)
-            {
-                if (value.info == id && value.date == dateTime)
-                {
-                    V1Datalist.Remove(value);
-                }
-            }
-            return ans;
+            int ans = V1Datalist.RemoveAll(value => value.info == id && value.date == dateTime);
+            return ans != 0;
         }
         public void AddDefaults()
         {
