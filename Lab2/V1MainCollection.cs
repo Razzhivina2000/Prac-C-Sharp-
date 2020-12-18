@@ -71,17 +71,17 @@ namespace Lab1
         public void AddDefaults()
         {
             Grid grid_0 = new Grid { t_begin = 0f, t_step = 0f, count = 0 };
-            V1Datalist.Add(new V1DataOnGrid("information", DateTime.Now, grid_0));
-            V1DataCollection tmp_0 = new V1DataCollection("information", DateTime.Now);
-            tmp_0.InitRandom(0, 0f, 0f, 0f, 0f);
-            V1Datalist.Add(new V1DataCollection("information", DateTime.Now));
+            V1DataOnGrid tmp_0 = new V1DataOnGrid("information", DateTime.Now, grid_0);
+            V1Datalist.Add(tmp_0);
+            V1DataCollection tmp_1 = new V1DataCollection("information", DateTime.Now);
+            V1Datalist.Add(tmp_1);
             Random rand = new Random();
-            int k = 3;
+            int k = 2;
             for (int i = 0; i < k; i++)
             {
                 string info = "information";
                 DateTime date = DateTime.Now;
-                Grid grid = new Grid { t_begin = 0f, t_step = 5f, count = 10 };
+                Grid grid = new Grid { t_begin = 0f, t_step = 5f, count = 2 };
                 float rand_minValue = (float)(-rand.NextDouble() * 20f);
                 float rand_maxValue = (float)(rand.NextDouble() * 30f);
                 V1DataOnGrid tmp = new V1DataOnGrid(info, date, grid);
@@ -92,7 +92,7 @@ namespace Lab1
                 float rand_maxValue2 = (float)(rand.NextDouble() * 30f);
                 float rand_tmin = (float)(rand.NextDouble() * 10f);
                 float rand_tmax = rand_tmin + (float)(rand.NextDouble() * 30f);
-                tmp2.InitRandom(10, rand_tmin, rand_tmax, rand_minValue2, rand_maxValue2);
+                tmp2.InitRandom(2, rand_tmin, rand_tmax, rand_minValue2, rand_maxValue2);
                 V1Datalist.Add(tmp2);
             }
         }
@@ -100,7 +100,7 @@ namespace Lab1
         {
             string ans = "";
             foreach (V1Data value in V1Datalist)
-            {
+            { 
                 ans += $"{value.ToString()}\n";
             }
             return ans;
@@ -110,7 +110,7 @@ namespace Lab1
             string ans = "";
             foreach (V1Data value in V1Datalist)
             {
-                ans += $"{value.ToLongString()}\n";
+                ans += $"{value.ToLongString(format)}\n";
             }
             return ans;
         }

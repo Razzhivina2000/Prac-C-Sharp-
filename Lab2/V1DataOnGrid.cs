@@ -14,22 +14,42 @@ namespace Lab1
         public V1DataOnGrid(string info, DateTime date, Grid grid) : base(info, date)
         {
             this.grid = grid;
+            values = new Vector3[grid.count];
         }
         public V1DataOnGrid(string filename) : base("", new DateTime())
         {
+
+            /*
+             Первая строка
+             (Информация) (дата) (параметры для сетки)
+             Компоненты вектора для каждого узла сетки через пробел на отдельной строке
+
+             information 5/1/2020 8:30:40 AM 0 5 3
+             0 0 0
+             14 15 6
+             1 2 3
+             */
+
             string str;
             try
             {
                 using (var sr = new StreamReader(filename))
                 {
                     str = sr.ReadLine();
+                    string[] args = str.Split(' ');
+                    info = args[0];
+                    string dateString = args[1] + " " + args[2] + " " + args[3]; // "5/1/2008 8:30:52 AM";
+                    date = DateTime.Parse(dateString,
+                                              System.Globalization.CultureInfo.InvariantCulture);
+                    grid = new Grid(float.Parse(args[4]), float.Parse(args[5]), Int32.Parse(args[6]));
+                    values = new Vector3[grid.count];
+                    for (int i = 0; i < grid.count; ++i)
+                    {
+                        str = sr.ReadLine();
+                        string[] val = str.Split(' ');
+                        values[i] = new Vector3(float.Parse(val[0]), float.Parse(val[1]), float.Parse(val[2]));
+                    }
                 }
-                string[] values = str.Split(' ');
-                info = values[0];
-                string dateString = values[1] + " " + values[2] + " " + values[3]; // "5/1/2008 8:30:52 AM";
-                date = DateTime.Parse(dateString,
-                                          System.Globalization.CultureInfo.InvariantCulture);
-                grid = new Grid(float.Parse(values[4]), float.Parse(values[5]), Int32.Parse(values[6]));
             }
             catch (Exception e)
             {
@@ -52,7 +72,6 @@ namespace Lab1
         public void InitRandom(float minValue, float maxValue)
         {
             Random rand = new Random();
-            values = new Vector3[grid.count];
             for (int i = 0; i < values.Length; i++)
             {
                 float rand_x = (float)rand.NextDouble() * (maxValue - minValue) + minValue;
@@ -101,7 +120,7 @@ namespace Lab1
         public override string ToString() => $"V1DataOnGrid {base.ToString()} {grid.ToString()}";
         public override string ToLongString()
         {
-            string ans = this.ToString() + "\n";
+            string ans = ToString() + "\n";
             for (int i = 0; i < values.Length; i++)
             {
                 ans += $"{grid.t_begin + i * grid.t_step} {values[i]}\n";

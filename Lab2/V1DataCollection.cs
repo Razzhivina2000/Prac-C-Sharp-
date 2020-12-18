@@ -8,7 +8,10 @@ namespace Lab1
     class V1DataCollection : V1Data, IEnumerable<DataItem>
     {
         public List<DataItem> DataItemlist { get; set; }
-        public V1DataCollection(string info, DateTime date) : base(info, date) { }
+        public V1DataCollection(string info, DateTime date) : base(info, date)
+        {
+            DataItemlist = new List<DataItem>();
+        }
         IEnumerator<DataItem> IEnumerable<DataItem>.GetEnumerator()
         {
             return DataItemlist.GetEnumerator();
@@ -21,7 +24,7 @@ namespace Lab1
         public void InitRandom(int nItems, float tmin, float tmax, float minValue, float maxValue)
         {
             Random rand = new Random();
-            DataItemlist = new List<DataItem>();
+           
             for (int i = 0; i < nItems; i++)
             {
                 float rand_t = (float)rand.NextDouble() * (tmax - tmin) + tmin;
