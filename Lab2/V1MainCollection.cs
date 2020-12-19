@@ -43,10 +43,13 @@ namespace Lab1
         {
             get
             {
-                var tmp1 = V1Datalist.Select(V1DataToV1DataCollection).Select(v => v.DataItemlist);
+                var tmp1 = from i in V1Datalist
+                           select V1DataToV1DataCollection(i).DataItemlist;
                 var tmp2 = from a in tmp1 from tmp in a select tmp.t;
-                
-                return tmp2.Where(x => tmp2.Count(y => x == y) > 1).Distinct();
+                var tmp3 = from x in tmp2
+                           where tmp2.Count(y => x == y) > 1
+                           select x;
+                return tmp3.Distinct();
             }
         }
 
