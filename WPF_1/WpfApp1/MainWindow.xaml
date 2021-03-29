@@ -1,0 +1,64 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1200"
+        Closed="Window_Closed">
+    <Window.Resources>
+        <local:Converter1 x:Key="conv"/>
+        <local:Converter2 x:Key="conv2"/>
+        <local:Converter3 x:Key="conv3"/>
+        <local:Converter4 x:Key="conv4"/>
+        <CollectionViewSource  Source="{Binding}"  
+                               x:Key="key_view_1" Filter="FilterByDatacollection"/>
+        <CollectionViewSource  Source="{Binding}"  
+                               x:Key="key_view_2" Filter="FilterByDataOnGrid"/>
+        <DataTemplate x:Key="V1DataCollection_DataTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=t, Converter={StaticResource conv}}"/>
+                <TextBlock Text="{Binding Path=vec, Converter={StaticResource conv2}}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.ColumnSpan="4">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Click="MenuItem_Click_New"/>
+                <MenuItem Header="Open" Click="MenuItem_Click_Open"/>
+                <MenuItem Header="Save" Click="MenuItem_Click_Save"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Add Defaults" Click="MenuItem_Click_Add_Default"/>
+                <MenuItem Header="Add Defaults V1DataCollection" Click="MenuItem_Click_Add_Default_V1DataCollection"/>
+                <MenuItem Header="Add Defaults V1DataOnGrid" Click="MenuItem_Click_Add_Default_V1DataOnGrid"/>
+                <MenuItem Header="Add Element from File" Click="MenuItem_Click_Add_from_file"/>
+                <MenuItem Header="Remove" Click="MenuItem_Click_Remove"/>
+            </MenuItem>
+        </Menu>
+
+        <ListBox Name ="lisBox_Main" ItemsSource="{Binding}" Margin="10,20,10,50" />
+        <ListBox Name ="lisBox_DataCollection" ItemsSource="{Binding Source={StaticResource key_view_1}}" Margin="10,20,10,10" Grid.Column="1" />
+        <ListBox Name ="lisBox_DataOnGrid" ItemsSource="{Binding Source={StaticResource key_view_2}}" Margin="10,20,10,10" Grid.Column="2" />
+        <ListBox Name ="lisBox_details" ItemsSource="{Binding ElementName=lisBox_DataCollection, Path=SelectedItem.DataItemlist}" 
+                 ItemTemplate="{StaticResource V1DataCollection_DataTemplate}"
+                 Margin="10,20,10,150" Grid.Column="3" />
+        <TextBlock Text="{Binding ElementName=lisBox_DataOnGrid, Path=SelectedItem, Converter={StaticResource conv3}}"
+                   Margin="10,300,10,70" Grid.Column="3"/>
+        <TextBlock Text="{Binding ElementName=lisBox_DataOnGrid, Path=SelectedItem, Converter={StaticResource conv4}}"
+                   Margin="10,350,10,20" Grid.Column="3"/>
+        <StackPanel Orientation="Vertical" Margin="10,350,10,0" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Path=MaxLength}"/>
+            <TextBlock Text="{Binding Path=Changed_not_save}"/>
+        </StackPanel>
+    </Grid>
+</Window>
