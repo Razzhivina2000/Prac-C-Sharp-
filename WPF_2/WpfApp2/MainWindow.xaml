@@ -1,0 +1,94 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        x:Class="WpfApp2.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1200"
+        Closed="Window_Closed">
+    <Window.Resources>
+        <local:Converter1 x:Key="conv"/>
+        <local:Converter2 x:Key="conv2"/>
+        <local:Converter3 x:Key="conv3"/>
+        <local:Converter4 x:Key="conv4"/>
+        <CollectionViewSource  Source="{Binding}"  
+                               x:Key="key_view_1" Filter="FilterByDatacollection"/>
+        <CollectionViewSource  Source="{Binding}"  
+                               x:Key="key_view_2" Filter="FilterByDataOnGrid"/>
+        <DataTemplate x:Key="V1DataCollection_DataTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=t, Converter={StaticResource conv}}"/>
+                <TextBlock Text="{Binding Path=vec, Converter={StaticResource conv2}}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open"
+            Executed="OpenCommandHandler"/>
+        <CommandBinding Command="ApplicationCommands.Save"
+            CanExecute="CanSaveCommandHandler"
+            Executed="SaveCommandHandler"/>
+        <CommandBinding Command="ApplicationCommands.Delete"
+            CanExecute="CanDeleteCommandHandler"
+            Executed="DeleteCommandHandler"/>
+        <CommandBinding Command="{x:Static local:MainWindow.AddCommand}"
+            CanExecute="CanAddCommandHandler"
+            Executed="AddCommandHandler"/>      
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Menu Grid.ColumnSpan="5">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Click="MenuItem_Click_New"/>
+                <MenuItem Header="Open" Command="ApplicationCommands.Open"/>
+                <MenuItem Header="Save" Command="ApplicationCommands.Save"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Add Defaults" Click="MenuItem_Click_Add_Default"/>
+                <MenuItem Header="Add Defaults V1DataCollection" Click="MenuItem_Click_Add_Default_V1DataCollection"/>
+                <MenuItem Header="Add Defaults V1DataOnGrid" Click="MenuItem_Click_Add_Default_V1DataOnGrid"/>
+                <MenuItem Header="Add Element from File" Click="MenuItem_Click_Add_from_file"/>
+                <MenuItem Header="Remove" Command="ApplicationCommands.Delete"/>
+            </MenuItem>
+            <MenuItem Header="Add Custom V1DataOnGrid" Command="{x:Static local:MainWindow.AddCommand}"/>
+        </Menu>
+
+        <ListBox Name ="lisBox_Main" ItemsSource="{Binding}" Margin="10,20,10,50" />
+        <ListBox Name ="lisBox_DataCollection" ItemsSource="{Binding Source={StaticResource key_view_1}}" Margin="10,20,10,10" Grid.Column="1" />
+        <ListBox Name ="lisBox_DataOnGrid" ItemsSource="{Binding Source={StaticResource key_view_2}}" Margin="10,20,10,10" Grid.Column="2" />
+        <ListBox Name ="lisBox_details" ItemsSource="{Binding ElementName=lisBox_DataCollection, Path=SelectedItem.DataItemlist}" 
+                 ItemTemplate="{StaticResource V1DataCollection_DataTemplate}"
+                 Margin="10,20,10,150" Grid.Column="3" />
+        <TextBlock Text="{Binding ElementName=lisBox_DataOnGrid, Path=SelectedItem, Converter={StaticResource conv3}}"
+                   Margin="10,300,10,70" Grid.Column="3"/>
+        <TextBlock Text="{Binding ElementName=lisBox_DataOnGrid, Path=SelectedItem, Converter={StaticResource conv4}}"
+                   Margin="10,350,10,20" Grid.Column="3"/>
+        <StackPanel Orientation="Vertical" Margin="10,350,10,0" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Path=MaxLength}"/>
+            <TextBlock Text="{Binding Path=Changed_not_save}"/>
+        </StackPanel>
+        <ToolBar VerticalAlignment="Top" Grid.Column="4" >
+            <Button Content="Open" Command="ApplicationCommands.Open"/>
+            <Button Content="Save" Command="ApplicationCommands.Save"/>
+            <Button Content="Add Custom" Command="{x:Static local:MainWindow.AddCommand}"/>
+            <Button Content="Remove" Command="ApplicationCommands.Delete"/>
+        </ToolBar>
+        <StackPanel Name="text_Box" Orientation="Vertical" Margin="10,40,10,0" Grid.Column="4">
+            <TextBox Name="text_Box_Info" Text="{Binding Path=Info, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,10,0,0"/>
+            <TextBox Name="text_Box_Count" Text="{Binding Path=Count, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,30,0,0"/>
+            <TextBox Name="text_Box_MinValue" Text="{Binding Path=MinValue, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,30,0,0"/>
+            <TextBox Name="text_Box_MaxValue" Text="{Binding Path=MaxValue, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,30,0,0"/>
+        </StackPanel>
+
+
+    </Grid>
+</Window>
