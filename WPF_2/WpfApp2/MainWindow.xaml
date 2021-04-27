@@ -83,10 +83,14 @@
             <Button Content="Remove" Command="ApplicationCommands.Delete"/>
         </ToolBar>
         <StackPanel Name="text_Box" Orientation="Vertical" Margin="10,40,10,0" Grid.Column="4">
-            <TextBox Name="text_Box_Info" Text="{Binding Path=Info, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,10,0,0"/>
-            <TextBox Name="text_Box_Count" Text="{Binding Path=Count, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,30,0,0"/>
-            <TextBox Name="text_Box_MinValue" Text="{Binding Path=MinValue, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,30,0,0"/>
-            <TextBox Name="text_Box_MaxValue" Text="{Binding Path=MaxValue, ValidatesOnDataErrors=True}" TextWrapping="Wrap" Margin="0,30,0,0"/>
+            <TextBlock Text="Info" Margin="0,25,0,0"/>
+            <TextBox Name="text_Box_Info" Text="{Binding Path=Info, ValidatesOnDataErrors=True}" TextWrapping="Wrap"/>
+            <TextBlock Text="Count" Margin="0,25,0,0"/>
+            <TextBox Name="text_Box_Count" Text="{Binding Path=Count, ValidatesOnDataErrors=True}" TextWrapping="Wrap"/>
+            <TextBlock Text="MinValue" Margin="0,25,0,0"/>
+            <TextBox Name="text_Box_MinValue" Text="{Binding Path=MinValue, ValidatesOnDataErrors=True}" TextWrapping="Wrap"/>
+            <TextBlock Text="MaxValue" Margin="0,25,0,0"/>
+            <TextBox Name="text_Box_MaxValue" Text="{Binding Path=MaxValue, ValidatesOnDataErrors=True}" TextWrapping="Wrap"/>
         </StackPanel>
 
 
